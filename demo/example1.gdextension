@@ -1,0 +1,12 @@
+[configuration]
+
+entry_symbol = "example1_lib_init"
+compatibility_minimum = "4.2"
+
+[libraries]
+windows.debug.x86_32 = "res://ext/example1.windows.relwithdebinfo.32.dll"
+windows.release.x86_32 = "res://ext/example1.windows.relwithdebinfo.32.dll"
+windows.debug.x86_64 = "res://ext/example1.windows.relwithdebinfo.64.dll"
+windows.release.x86_64 = "res://ext/example1.windows.relwithdebinfo.64.dll"
+linux.debug.x86_64 = "res://ext/libexample1.linux.relwithdebinfo.64.so"
+linux.release.x86_64 = "res://ext/libexample1.linux.relwithdebinfo.64.so"
