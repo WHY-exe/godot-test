@@ -29,6 +29,7 @@ namespace log {
         }
         auto default_logger = std::make_shared<spdlog::logger>("default", sink_list.begin(), sink_list.end());
         default_logger->set_level(logConfig.logLevel);
+        spdlog::set_level(logConfig.logLevel);
         spdlog::set_default_logger(std::move(default_logger));
         spdlog::flush_every(std::chrono::seconds(3));
     }

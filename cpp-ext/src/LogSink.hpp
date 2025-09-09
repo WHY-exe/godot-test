@@ -1,10 +1,8 @@
 #pragma once
-
 #include <godot_cpp/variant/utility_functions.hpp>
 #include <mutex>
 #include <spdlog/details/null_mutex.h>
 #include <spdlog/sinks/base_sink.h>
-
 
 namespace godot {
 template <typename Mutex>
@@ -19,14 +17,14 @@ protected:
         spdlog::memory_buf_t formatted;
         spdlog::sinks::base_sink<Mutex>::formatter_->format(msg, formatted);
 
-        auto gdStr = String::utf8(fmt::to_string(formatted).c_str(), formatted.size() - 2);
+        auto gdStr = String::utf8(formatted.data(), formatted.size() - 2);
         switch (msg.level)
         {
         case spdlog::level::trace:
             UtilityFunctions::print_rich(gdStr);
             break;
         case spdlog::level::debug:
-            UtilityFunctions::print_rich("[color=blue]", gdStr, "[/color]");
+            UtilityFunctions::print_rich("[color=cyan]", gdStr, "[/color]");
             break;
         case spdlog::level::info:
             UtilityFunctions::print_rich("[color=green]", gdStr, "[/color]");

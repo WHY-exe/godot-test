@@ -1,6 +1,6 @@
 #pragma once
 #include <filesystem>
-#include <spdlog/fmt/bundled/format.h>
+#include "TypeFormatter.hpp"
 #include <spdlog/spdlog.h>
 
 namespace godot {

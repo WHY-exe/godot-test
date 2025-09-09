@@ -39,7 +39,9 @@ void TestCharacter2D::Ready() {
 	if (!_test_node_path.is_empty() && _player_img == nullptr) {
 		_player_img = get_node<Sprite2D>(_test_node_path);
 		if (!_player_img) {
-			UtilityFunctions::print("fail to convert node:", _test_node_path.get_concatenated_names(), " to sprite2D");
+			SPDLOG_ERROR("fail to convert node:{} to sprite2D", _test_node_path.get_concatenated_names());
+		} else {
+			SPDLOG_DEBUG("image node:{} converted to sprite2D", _test_node_path.get_concatenated_names());
 		}
 	}
 }
