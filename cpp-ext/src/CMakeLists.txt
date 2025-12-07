@@ -49,7 +49,10 @@ file(GLOB SRC
 )
 
 add_library(${PROJECT_NAME} SHARED ${SRC} )
-target_link_libraries(${PROJECT_NAME} PUBLIC godot-cpp spdlog::spdlog)
+target_link_libraries(${PROJECT_NAME} 
+	PRIVATE 
+	unofficial::godot::cpp
+	spdlog::spdlog)
 
 set_property(TARGET ${PROJECT_NAME} APPEND_STRING PROPERTY COMPILE_FLAGS ${PRJ_COMPILE_FLAGS})
 
@@ -69,5 +72,5 @@ set_target_properties(${PROJECT_NAME}
         OUTPUT_NAME              ${OUTPUT_NAME}
         # LIBRARY_OUTPUT_DIRECTORY ${PRJ_BIN_DIR}
         # ARCHIVE_OUTPUT_DIRECTORY ${PRJ_BIN_DIR}
-        RUNTIME_OUTPUT_DIRECTORY ${PRJ_BIN_DIR}
+        # RUNTIME_OUTPUT_DIRECTORY ${PRJ_BIN_DIR}
 )

@@ -2,101 +2,14 @@
   "version": 3,
   "configurePresets": [
     {
-      "name": "base",
-      "description": "Target the Windows Subsystem for Linux (WSL) or a remote Linux system.",
+      "name": "vcpkg-base",
       "hidden": true,
       "generator": "Ninja",
       "binaryDir": "${sourceDir}/cpp-ext/out/build/${presetName}",
       "installDir": "${sourceDir}/demo/ext",
       "cacheVariables": {
+        "CMAKE_TOOLCHAIN_FILE": "$env{VCPKG_ROOT}/scripts/buildsystems/vcpkg.cmake",
         "CMAKE_EXPORT_COMPILE_COMMANDS": true
-      }
-    },
-    {
-      "name": "linux-base",
-      "description": "Target the Windows Subsystem for Linux (WSL) or a remote Linux system.",
-      "hidden": true,
-      "inherits": "base",
-      "architecture": {
-        "value": "x64",
-        "strategy": "external"
-      },
-      "condition": {
-        "type": "equals",
-        "lhs": "${hostSystemName}",
-        "rhs": "Linux"
-      }
-    },
-    {
-      "name": "linux-x64-release",
-      "displayName": "linux-x64-release",
-      "description": "Target the Windows Subsystem for Linux (WSL) or a remote Linux system.",
-      "inherits": "linux-base",
-      "cacheVariables": {
-        "CMAKE_BUILD_TYPE": "RelWithDebInfo"
-      }
-    },
-    {
-      "name": "linux-x86-release",
-      "displayName": "linux-x86-release",
-      "description": "Target the Windows Subsystem for Linux (WSL) or a remote Linux system.",
-      "inherits": "linux-base",
-      "architecture": {
-        "value": "x86",
-        "strategy": "external"
-      },
-      "cacheVariables": {
-        "CMAKE_BUILD_TYPE": "RelWithDebInfo"
-      }
-    },
-    {
-      "name": "macos-debug",
-      "displayName": "macOS Debug",
-      "description": "Target a remote macOS system.",
-      "generator": "Ninja",
-      "binaryDir": "${sourceDir}/out/build/${presetName}",
-      "installDir": "${sourceDir}/out/install/${presetName}",
-      "cacheVariables": {
-        "CMAKE_BUILD_TYPE": "Debug"
-      },
-      "condition": {
-        "type": "equals",
-        "lhs": "${hostSystemName}",
-        "rhs": "Darwin"
-      }
-    },
-    {
-      "name": "windows-base",
-      "description": "Target Windows with the Visual Studio development environment.",
-      "hidden": true,
-      "inherits": "base",
-      "cacheVariables": {
-        "CMAKE_C_COMPILER": "cl.exe",
-        "CMAKE_CXX_COMPILER": "cl.exe",
-        "CMAKE_EXPORT_COMPILE_COMMANDS": true
-      },
-      "condition": {
-        "type": "equals",
-        "lhs": "${hostSystemName}",
-        "rhs": "Windows"
-      }
-    },
-    {
-      "name": "win32-x64-release",
-      "displayName": "win32-x64-release",
-      "description": "Target Windows (64-bit) with the Visual Studio development environment. (RelWithDebInfo)",
-      "inherits": "windows-base",
-      "cacheVariables": {
-        "CMAKE_BUILD_TYPE": "RelWithDebInfo"
-      }
-    },
-    {
-      "name": "win32-x86-release",
-      "displayName": "win32-x86-Release",
-      "description": "Target Windows (32-bit) with the Visual Studio development environment. (RelWithDebInfo)",
-      "inherits": "windows-base",
-      "cacheVariables": {
-        "CMAKE_BUILD_TYPE": "RelWithDebInfo"
       }
     }
   ]

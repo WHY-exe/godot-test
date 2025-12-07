@@ -1,7 +1,7 @@
 #pragma once
 #include <godot_cpp/variant/string.hpp>
 #include <godot_cpp/variant/string_name.hpp>
-#include <spdlog/fmt/bundled/format.h>
+#include <fmt/format.h>
 
 template <>
 class fmt::formatter<godot::String> {
