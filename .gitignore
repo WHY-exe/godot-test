@@ -8,6 +8,7 @@ out
 *.exp
 *.lnk
 /compile_commands.json
+CMakeUserPresets.json
 /.vscode
 /.cache
 CMakeUserPresets.json

@@ -11,8 +11,6 @@ endif()
 
 set(PRJ_BIN_DIR "${PROJECT_SOURCE_DIR}/Demo/ext")
 
-set(VCPKG_CRT_LINKAGE static)
-set(VCPKG_LIBRARY_LINKAGE static)
 find_package(spdlog CONFIG REQUIRED)
 find_package(unofficial-godot-cpp CONFIG REQUIRED)
 add_subdirectory(src)
