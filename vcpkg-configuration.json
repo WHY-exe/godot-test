@@ -1,0 +1,15 @@
+{
+  "default-registry": {
+    "kind": "git",
+    "repository": "https://gitee.com/mirrors/vcpkg",
+    "baseline": "ab2977be50c702126336e5088f4836060733c899"
+  },
+  "registries": [
+    {
+      "kind": "git",
+      "repository": "https://gitee.com/mirrors/vcpkg",
+      "baseline": "6d77e33a2a7ff5e0e115864c0f64d6bc5e9ed58a",
+      "packages": ["spdlog"]
+    }
+  ]
+}

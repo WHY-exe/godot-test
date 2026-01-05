@@ -4,13 +4,24 @@
     {
       "name": "vcpkg-base",
       "hidden": true,
-      "generator": "Ninja",
       "binaryDir": "${sourceDir}/cpp-ext/out/build/${presetName}",
       "installDir": "${sourceDir}/demo/ext",
       "cacheVariables": {
-        "VCPKG_LIBRARY_LINKAGE": "static",
         "CMAKE_TOOLCHAIN_FILE": "$env{VCPKG_ROOT}/scripts/buildsystems/vcpkg.cmake",
         "CMAKE_EXPORT_COMPILE_COMMANDS": true
+      }
+    },
+    {
+      "name": "vcpkg-android-base",
+      "hidden": true,
+      "inherits": "vcpkg-base",
+      "generator": "Ninja",
+      "cacheVariables": {
+        "CMAKE_SYSTEM_NAME": "Android",
+        "CMAKE_ANDROID_API": "23",
+        "CMAKE_ANDROID_NDK": "$env{ANDROID_SDK_PATH}/ndk/$env{NDK_VERSION}",
+        "CMAKE_MAKE_PROGRAM": "$env{ANDROID_SDK_PATH}/cmake/3.22.1/bin/ninja",
+        "CMAKE_ANDROID_STL_TYPE": "c++_static"
       }
     }
   ]

@@ -1,12 +1,14 @@
 [configuration]
 
 entry_symbol = "example1_lib_init"
-compatibility_minimum = "4.2"
+compatibility_minimum = "4.3"
 
 [libraries]
-windows.debug.x86_32 = "res://ext/bin/example1.windows.relwithdebinfo.32.dll"
-windows.release.x86_32 = "res://ext/bin/example1.windows.relwithdebinfo.32.dll"
-windows.debug.x86_64 = "res://ext/bin/example1.windows.relwithdebinfo.64.dll"
-windows.release.x86_64 = "res://ext/bin/example1.windows.relwithdebinfo.64.dll"
-linux.debug.x86_64 = "res://ext/bin/libexample1.linux.relwithdebinfo.64.so"
-linux.release.x86_64 = "res://ext/bin/libexample1.linux.relwithdebinfo.64.so"
+windows.debug.x86_32 = "res://ext/bin/example1.windows.relwithdebinfo.x86.dll"
+windows.release.x86_32 = "res://ext/bin/example1.windows.relwithdebinfo.x86.dll"
+windows.debug.x86_64 = "res://ext/bin/example1.windows.relwithdebinfo.x64.dll"
+windows.release.x86_64 = "res://ext/bin/example1.windows.relwithdebinfo.x64.dll"
+android.debug.arm64 = "res://ext/lib/example1.android.relwithdebinfo.arm64-v8a.so"
+android.release.arm64 = "res://ext/lib/example1.android.relwithdebinfo.arm64-v8a.so"
+android.debug.x86_64 = "res://ext/lib/example1.android.relwithdebinfo.x86_64.so"
+android.release.x86_64 = "res://ext/lib/example1.android.relwithdebinfo.x86_64.so"

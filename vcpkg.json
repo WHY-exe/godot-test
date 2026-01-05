@@ -1,13 +1,13 @@
 {
   "dependencies": [
-    {
-      "name": "spdlog",
-      "version>=": "1.16.0"
-    },
+    "spdlog",
+    "godot-cpp"
+  ],
+  "builtin-baseline": "ab2977be50c702126336e5088f4836060733c899",
+  "overrides": [
     {
       "name": "godot-cpp",
-      "version>=": "4.4#0"
+      "version": "4.3#0"
     }
-  ],
-  "builtin-baseline": "ab2977be50c702126336e5088f4836060733c899"
+  ]
 }
