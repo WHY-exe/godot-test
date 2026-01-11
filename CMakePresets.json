@@ -7,6 +7,7 @@
       "binaryDir": "${sourceDir}/cpp-ext/out/build/${presetName}",
       "installDir": "${sourceDir}/demo/ext",
       "cacheVariables": {
+        "VCPKG_OVERLAY_TRIPLETS": "${sourceDir}/cpp-ext/cmake/vcpkg-triplets",
         "CMAKE_TOOLCHAIN_FILE": "$env{VCPKG_ROOT}/scripts/buildsystems/vcpkg.cmake",
         "CMAKE_EXPORT_COMPILE_COMMANDS": true
       }

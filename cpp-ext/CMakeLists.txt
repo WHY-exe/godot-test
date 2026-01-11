@@ -1,8 +1,9 @@
 cmake_minimum_required(VERSION 3.21)
-project(example1)
+project(example1 VERSION 1.0.0)
 
 set(CMAKE_CXX_STANDARD 17)
 
+add_subdirectory(vendor)
 if(MSVC)
     # active multi-thread compliation flag on msvc
     # cmake_host_system_information(RESULT CPU_NUMBER_OF_LOGICAL_CORES QUERY NUMBER_OF_LOGICAL_CORES)
@@ -17,9 +18,6 @@ if(MSVC)
 endif()
 
 set(PRJ_BIN_DIR "${PROJECT_SOURCE_DIR}/Demo/ext")
-
-find_package(spdlog CONFIG REQUIRED)
-find_package(unofficial-godot-cpp CONFIG REQUIRED)
 set(PRJ_COMPILE_FLAGS)
 if ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "MSVC")
 	# using Visual Studio C++
@@ -38,27 +36,13 @@ endif()
 # else()
 #     set(PRJ_COMPILE_FLAGS "${PRJ_COMPILE_FLAGS} -fno-exceptions")
 # endif()
-set(ARCH )
-if (WIN32 AND MSVC)
-    if (MSVC)
-        set(ARCH ${MSVC_CXX_ARCHITECTURE_ID})
-    else()
-        set(ARCH ${CMAKE_SYSTEM_PROCESSOR})
-    endif()
-elseif (IOS)
-    set (ARCH ${CMAKE_OSX_ARCHITECTURES})
-elseif (ANDROID)
-    set (ARCH ${CMAKE_ANDROID_ARCH_ABI})
-else()
-    set(ARCH ${CMAKE_SYSTEM_PROCESSOR})
-endif()
+include(cmake/UtilityTargets.cmake)
 
 string(TOLOWER "${CMAKE_SYSTEM_NAME}" SYSTEM_NAME)
 string(TOLOWER "${CMAKE_BUILD_TYPE}" BUILD_TYPE)
-string(TOLOWER "${ARCH}" ARCH)
 
 
-file(GLOB SRC
+file(GLOB_RECURSE SRC
     "${PROJECT_SOURCE_DIR}/src/*.h" 
     "${PROJECT_SOURCE_DIR}/src/*.hpp"
     "${PROJECT_SOURCE_DIR}/src/*.c" 
@@ -69,23 +53,26 @@ add_library(${PROJECT_NAME} SHARED ${SRC} )
 target_link_libraries(${PROJECT_NAME} 
 	PRIVATE 
 	unofficial::godot::cpp
-	spdlog::spdlog)
+	spdlog::spdlog
+    breakpad_client
+)
+
+target_include_directories(${PROJECT_NAME}
+    PUBLIC
+    ${PROJECT_SOURCE_DIR}/src
+)
 
 set_property(TARGET ${PROJECT_NAME} APPEND_STRING PROPERTY COMPILE_FLAGS ${PRJ_COMPILE_FLAGS})
 
-set(OUTPUT_NAME "${PROJECT_NAME}.${SYSTEM_NAME}.${BUILD_TYPE}.${ARCH}")
+# set(OUTPUT_NAME "${PROJECT_NAME}.${SYSTEM_NAME}.${BUILD_TYPE}.${ARCH}")
+# set_target_properties(${PROJECT_NAME} 
+#     PROPERTIES
+#         CXX_EXTENSIONS OFF
+#         OUTPUT_NAME    ${OUTPUT_NAME}
+# )
 
-set_target_properties(${PROJECT_NAME} 
-    PROPERTIES
-        CXX_EXTENSIONS           OFF
-        OUTPUT_NAME              ${OUTPUT_NAME}
-        # LIBRARY_OUTPUT_DIRECTORY ${PRJ_BIN_DIR}
-        # ARCHIVE_OUTPUT_DIRECTORY ${PRJ_BIN_DIR}
-        # RUNTIME_OUTPUT_DIRECTORY ${PRJ_BIN_DIR}
+install(TARGETS ${PROJECT_NAME}    
+    LIBRARY DESTINATION ${INSTALL_DIR_NO_PREFIX}
+    ARCHIVE DESTINATION ${INSTALL_DIR_NO_PREFIX}
+    RUNTIME DESTINATION ${INSTALL_DIR_NO_PREFIX}
 )
-
-install(TARGETS example1)
-
-if (EXISTS "${CMAKE_BINARY_DIR}/compile_commands.json")
-    file(COPY "${CMAKE_BINARY_DIR}/compile_commands.json" DESTINATION "${CMAKE_SOURCE_DIR}")
-endif()
