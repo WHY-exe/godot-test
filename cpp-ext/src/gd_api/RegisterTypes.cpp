@@ -1,16 +1,24 @@
 #include "RegisterTypes.h"
 #include "log/Log.h"
-#include "GDObj/TestCharacter2D.h"
+#include "gd_obj/TestCharacter2D.h"
 #include <gdextension_interface.h>
 #include <godot_cpp/core/class_db.hpp>
 #include <godot_cpp/core/defs.hpp>
+#include <godot_cpp/classes/os.hpp>
 #include <godot_cpp/godot.hpp>
+#include <mutex>
+#include "utils/DumpHelper.h"
 
 namespace godot {
 void LoadModule(ModuleInitializationLevel p_level) {
     if (p_level != MODULE_INITIALIZATION_LEVEL_SCENE) {
         return;
     }
+    static std::once_flag gOnceFlag;
+    std::call_once(gOnceFlag, [] () {
+        String dataPath = OS::get_singleton()->get_user_data_dir();
+        dmphelper::Client::Instancitiate(dataPath.wide_string().get_data());
+    });
     ClassDB::register_class<BasicGameObj>();
     ClassDB::register_class<TestCharacter2D>();
     Log::Config logConfig{};

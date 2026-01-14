@@ -150,7 +150,7 @@ void TestCharacter2D::set_test_node(const NodePath &node_in) {
 }
 
 void TestCharacter2D::test(double delta) {
-	SPDLOG_DEBUG("this is a debug message {}", delta);
+	LOGD("this is a debug message {}", delta);
 	LOGI("this is the test function: formatted string {}", delta);
 	LOGW("this is a warning");
 	LOGE("this is an error");

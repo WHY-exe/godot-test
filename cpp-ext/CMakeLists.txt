@@ -3,13 +3,10 @@ project(example1 VERSION 1.0.0)
 
 set(CMAKE_CXX_STANDARD 17)
 
-add_subdirectory(vendor)
 if(MSVC)
     # active multi-thread compliation flag on msvc
     # cmake_host_system_information(RESULT CPU_NUMBER_OF_LOGICAL_CORES QUERY NUMBER_OF_LOGICAL_CORES)
-    # set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /MP${CPU_NUMBER_OF_LOGICAL_CORES}")
-    string(REGEX REPLACE "/W[3|4]" "/W4" CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS}")
-    
+    # set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /MP${CPU_NUMBER_OF_LOGICAL_CORES}")    
     # Replace /MD with /MT for static runtime library
     foreach(config "" "_DEBUG" "_RELEASE" "_MINSIZEREL" "_RELWITHDEBINFO")
         string(REGEX REPLACE "/MD" "/MT" CMAKE_CXX_FLAGS${config} "${CMAKE_CXX_FLAGS${config}}")
@@ -17,19 +14,9 @@ if(MSVC)
     endforeach()
 endif()
 
-set(PRJ_BIN_DIR "${PROJECT_SOURCE_DIR}/Demo/ext")
-set(PRJ_COMPILE_FLAGS)
-if ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "MSVC")
-	# using Visual Studio C++
-    set(PRJ_COMPILE_FLAGS "/utf-8 /W4") # /GF /MP
-# else()  # GCC/Clang
-# 	if(CMAKE_BUILD_TYPE MATCHES Debug)
-# 		set(PRJ_COMPILE_FLAGS "${PRJ_COMPILE_FLAGS} -fno-omit-frame-pointer -O0 -g")
-# 	else()
-# 		set(PRJ_COMPILE_FLAGS "${PRJ_COMPILE_FLAGS} -O3")
-# 	endif(CMAKE_BUILD_TYPE MATCHES Debug)
-endif()
+add_subdirectory(vendor)
 
+set(PRJ_BIN_DIR "${PROJECT_SOURCE_DIR}/Demo/ext")
 # disable exception
 # if ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "MSVC")
 #     set(PRJ_COMPILE_FLAGS "${PRJ_COMPILE_FLAGS} -D_HAS_EXCEPTIONS=0")
@@ -48,6 +35,17 @@ file(GLOB_RECURSE SRC
     "${PROJECT_SOURCE_DIR}/src/*.c" 
     "${PROJECT_SOURCE_DIR}/src/*.cpp"
 )
+
+set(PRJ_COMPILE_FLAGS)
+if ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "MSVC")
+    set(PRJ_COMPILE_FLAGS "/utf-8") # /GF /MP
+# else()  # GCC/Clang
+# 	if(CMAKE_BUILD_TYPE MATCHES Debug)
+# 		set(PRJ_COMPILE_FLAGS "${PRJ_COMPILE_FLAGS} -fno-omit-frame-pointer -O0 -g")
+# 	else()
+# 		set(PRJ_COMPILE_FLAGS "${PRJ_COMPILE_FLAGS} -O3")
+# 	endif(CMAKE_BUILD_TYPE MATCHES Debug)
+endif()
 
 add_library(${PROJECT_NAME} SHARED ${SRC} )
 target_link_libraries(${PROJECT_NAME} 
