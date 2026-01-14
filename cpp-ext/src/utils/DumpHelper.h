@@ -22,7 +22,7 @@
 #define STR(raw_str) L ##raw_str
 #define OPT_ARGS , GBCustomInfos customInfo = {}, const WCHAR* pipeName = nullptr
 #else
-#define STR(raw_str)
+#define STR(raw_str) raw_str
 #define OPT_ARGS
 #endif
 
