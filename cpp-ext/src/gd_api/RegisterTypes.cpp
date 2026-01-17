@@ -17,7 +17,13 @@ void LoadModule(ModuleInitializationLevel p_level) {
     static std::once_flag gOnceFlag;
     std::call_once(gOnceFlag, [] () {
         String dataPath = OS::get_singleton()->get_user_data_dir();
-        dmphelper::Client::Instancitiate(dataPath.wide_string().get_data());
+        dmphelper::Client::Instancitiate(
+        #if defined (WIN32)
+            dataPath.wide_string().get_data()
+        #else
+            dataPath.utf8().get_data()
+        #endif
+        );
     });
     ClassDB::register_class<BasicGameObj>();
     ClassDB::register_class<TestCharacter2D>();

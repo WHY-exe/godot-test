@@ -2,7 +2,7 @@
 #include <filesystem>
 
 #ifdef WIN32
-#define OPT_ARGS_IMPL , GBCustomInfos customInfo, const WCHAR* pipeName
+#define OPT_ARGS_IMPL , GBCustomInfos customInfo, const WCHAR *pipeName
 #else
 #define OPT_ARGS_IMPL
 #endif
@@ -10,15 +10,18 @@
 namespace dmphelper {
 Client::Client(String strDumpPath OPT_ARGS_IMPL)
     : m_strDumpPath(std::move(strDumpPath))
-    , m_infos(std::move(customInfo)) {
+#if defined(WIN32)
+    , m_infos(std::move(customInfo))
+#endif
+{
     m_strDumpPath += STR("/gd_ext_dmp");
     if (!std::filesystem::exists(m_strDumpPath)) {
         std::error_code ec;
         std::filesystem::create_directories(m_strDumpPath);
     }
-#ifdef WIN32
+#if defined(WIN32)
     memset(&m_clientInfo, 0, sizeof(m_clientInfo));
-    if (!m_infos.empty() && pipeName != nullptr) {    
+    if (!m_infos.empty() && pipeName != nullptr) {
         m_clientInfo.entries = &m_infos[0];
         m_clientInfo.count   = m_infos.size();
     }
@@ -55,7 +58,11 @@ Client::Client(String strDumpPath OPT_ARGS_IMPL)
 }
 
 void Client::Instancitiate(String strDumpPath OPT_ARGS_IMPL) {
-    static Client instance(std::move(strDumpPath), std::move(customInfo), pipeName);
+    static Client instance(std::move(strDumpPath)
+#if defined(WIN32)
+                           , std::move(customInfo), pipeName
+#endif
+    );
 }
 
 bool Client::DumpCallback(

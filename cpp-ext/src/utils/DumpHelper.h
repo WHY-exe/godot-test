@@ -37,8 +37,9 @@ namespace gb = google_breakpad;
 
 class Client {
     using GBExceptHandler = std::unique_ptr<gb::ExceptionHandler>;
+#if defined (WIN32)
     using GBCustomInfos   = std::vector<gb::CustomInfoEntry>;
-#if defined(__ANDROID__) || defined(__OHOS__)
+#elif defined(__ANDROID__) || defined(__OHOS__)
     using GBDescriptor = std::unique_ptr<gb::MinidumpDescriptor>;
 #endif
 public:
@@ -69,9 +70,10 @@ private:
 private:
     String               m_strDumpPath;
     GBExceptHandler      m_eh;
+#if defined (WIN32)
     GBCustomInfos        m_infos;
     gb::CustomClientInfo m_clientInfo;
-#if defined(__ANDROID__) || defined(__OHOS__)
+#elif defined(__ANDROID__) || defined(__OHOS__)
     GBDescriptor m_descriptor;
 #endif
 };
