@@ -4,6 +4,7 @@
     {
       "name": "vcpkg-base",
       "hidden": true,
+      "generator": "Ninja",
       "binaryDir": "${sourceDir}/cpp-ext/out/build/${presetName}",
       "installDir": "${sourceDir}/demo/ext",
       "cacheVariables": {
@@ -16,7 +17,6 @@
       "name": "vcpkg-android-base",
       "hidden": true,
       "inherits": "vcpkg-base",
-      "generator": "Ninja",
       "cacheVariables": {
         "CMAKE_SYSTEM_NAME": "Android",
         "CMAKE_ANDROID_API": "23",
