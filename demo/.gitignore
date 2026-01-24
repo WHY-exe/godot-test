@@ -1,0 +1,15 @@
+.godot
+.cache
+build
+out
+~*
+*.ilk
+*.pdb
+*.exp
+*.lnk
+/compile_commands.json
+/.vscode
+/.cache
+ext
+*.uid
+logs

@@ -1,0 +1,4 @@
+[submodule "cppext/vendor/godotcpp"]
+	path = cppext/vendor/godotcpp
+	url = https://github.com/godotengine/godot-cpp.git
+	branch = 4.5

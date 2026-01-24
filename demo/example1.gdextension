@@ -1,0 +1,18 @@
+[configuration]
+
+entry_symbol = "example1_lib_init"
+compatibility_minimum = "4.5"
+
+[libraries]
+windows.debug.x86_32    = "res://ext/1.0.0/Windows/Debug/x86/game-ext.dll"
+windows.release.x86_32  = "res://ext/1.0.0/Windows/RelWithDebInfo/x86/game-ext.dll"
+windows.debug.x86_64    = "res://ext/1.0.0/Windows/Debug/x64/game-ext.dll"
+windows.release.x86_64  = "res://ext/1.0.0/Windows/RelWithDebInfo/x64/game-ext.dll"
+android.debug.arm64     = "res://ext/1.0.0/Android/RelWithDebInfo/arm64-v8a/libgame-ext.so"
+android.release.arm64   = "res://ext/1.0.0/Android/StripRel/arm64-v8a/libgame-ext.so"
+android.debug.arm32     = "res://ext/1.0.0/Android/RelWithDebInfo/armeabi-v7a/libgame-ext.so"
+android.release.arm32   = "res://ext/1.0.0/Android/StripRel/armeabi-v7a/libgame-ext.so"
+android.debug.x86_32    = "res://ext/1.0.0/Android/RelWithDebInfo/x86/libgame-ext.so"
+android.release.x86_32  = "res://ext/1.0.0/Android/StripRel/x86/libgame-ext.so"
+android.debug.x86_64    = "res://ext/1.0.0/Android/RelWithDebInfo/x86_64/libgame-ext.so"
+android.release.x86_64  = "res://ext/1.0.0/Android/StripRel/x86_64/libgame-ext.so"

@@ -1,0 +1,94 @@
+﻿{
+  "version": 3,
+  "configurePresets": [
+    {
+      "name": "base",
+      "hidden": true,
+      "generator": "Ninja",
+      "binaryDir": "${sourceDir}/cppext/out/build/${presetName}",
+      "installDir": "${sourceDir}/demo/ext",
+      "cacheVariables": {
+        "CMAKE_EXPORT_COMPILE_COMMANDS": true
+      }
+    },
+    {
+        "name": "win-base",
+        "inherits": "base",
+        "hidden": true,
+        "toolchainFile": "${sourceDir}/cppext/cmake/Windows.MSVC.toolchain.cmake",
+        "toolset":{
+            "value": "host=x64,version=14.3",
+            "strategy": "external"
+        },
+        "cacheVariables": {
+            "CMAKE_EXPORT_COMPILE_COMMANDS": true
+        }
+    },
+    {
+        "name": "win32-rel",
+        "inherits": "win-base",
+        "architecture": {
+            "value": "x86,version=10.0.22621.0",
+            "strategy": "external"
+        },
+        "cacheVariables": {
+            "CMAKE_BUILD_TYPE": "RelWithDebInfo"
+        }
+    },
+    {
+        "name": "win64-rel",
+        "inherits": "win-base",
+        "architecture": {
+            "value": "x64,version=10.0.22621.0",
+            "strategy": "external"
+        },
+        "cacheVariables": {
+            "CMAKE_BUILD_TYPE": "RelWithDebInfo"
+        }
+    },
+    {
+        "name": "win32-deb",
+        "inherits": "win32-rel",
+        "cacheVariables": {
+            "CMAKE_BUILD_TYPE": "Debug"
+        }
+    },
+    {
+        "name": "win64-deb",
+        "inherits": "win64-rel",
+        "cacheVariables": {
+            "CMAKE_BUILD_TYPE": "Debug"
+        }
+    },
+    {
+      "name": "android-base",
+      "hidden": true,
+      "inherits": "base",
+      "cacheVariables": {
+        "CMAKE_SYSTEM_NAME": "Android",
+        "CMAKE_ANDROID_API": "23",
+        "CMAKE_ANDROID_NDK": "$env{ANDROID_SDK_PATH}/ndk/$env{NDK_VERSION}",
+        "CMAKE_MAKE_PROGRAM": "$env{ANDROID_SDK_PATH}/cmake/3.22.1/bin/ninja",
+        "CMAKE_ANDROID_STL_TYPE": "c++_static"
+      }
+    }
+  ],
+  "buildPresets": [
+        {
+            "name": "win32-rel",
+            "configurePreset": "win32-rel"
+        },
+        {
+            "name": "win64-rel",
+            "configurePreset": "win64-rel"
+        },
+        {
+            "name": "win32-deb",
+            "configurePreset": "win32-deb"
+        },
+        {
+            "name": "win64-deb",
+            "configurePreset": "win64-deb"
+        }
+    ]
+}
