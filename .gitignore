@@ -2,22 +2,25 @@
 .godot
 .vscode
 
-# generated files
+# binary generated files
 ~*
 *.ilk
 *.pdb
 *.exp
 *.lnk
+*.lib
 *.bak
 *.exe
 *.dll
 *.so
+*.sym
 *.framework
 
 # binary dir
 build/
 out/
 bin/
+logs/
 
 # Godot 4+ specific ignores
 godot/
@@ -25,6 +28,7 @@ godot/
 # Godot-specific ignores
 import/
 *.import
+*.uid
 export.cfg
 export_presets.cfg
 
