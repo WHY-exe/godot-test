@@ -5,8 +5,10 @@ set(ARCH )
 if (WIN32)
     if (MSVC)
         set(ARCH ${MSVC_CXX_ARCHITECTURE_ID})
+    elseif (CMAKE_SIZEOF_VOID_P EQUAL 8)
+        set(ARCH x64)
     else()
-        set(ARCH ${CMAKE_SYSTEM_PROCESSOR})
+        set(ARCH x86)
     endif()
 elseif (IOS)
     set (ARCH ${CMAKE_OSX_ARCHITECTURES})
@@ -20,7 +22,7 @@ string(TOLOWER "${ARCH}" ARCH)
 set(INSTALL_DIR_NO_PREFIX ${PROJECT_VERSION}/${CMAKE_SYSTEM_NAME}/${CMAKE_BUILD_TYPE}/${ARCH})
 
 set(DUMP_SYMS_EXE ${CMAKE_CURRENT_LIST_DIR}/../tools/dump/${CMAKE_HOST_SYSTEM_NAME}/dump_syms)
-if(${CMAKE_HOST_SYSTEM_NAME} STREQUAL "Windows")
+if(${CMAKE_HOST_SYSTEM_NAME} STREQUAL "Windows" AND MSVC)
     string( APPEND DUMP_SYMS_EXE ".exe")
 else()
     # Ensure tool is executable on non-Windows hosts
@@ -28,7 +30,6 @@ else()
         file(CHMOD ${DUMP_SYMS_EXE} OWNER_READ OWNER_WRITE OWNER_EXECUTE GROUP_READ GROUP_EXECUTE WORLD_READ WORLD_EXECUTE)
     endif()
 endif()
-set(DEMO_DIR    ${CMAKE_SOURCE_DIR}/Demo/${CMAKE_SYSTEM_NAME}/TestApp)
 set(INSTALL_DIR ${CMAKE_INSTALL_PREFIX}/${INSTALL_DIR_NO_PREFIX})
 set(STRIP_DIR   ${CMAKE_INSTALL_PREFIX}/${PROJECT_VERSION}/${CMAKE_SYSTEM_NAME}/StripRel/${ARCH})
 set(SYM_DIR     ${CMAKE_INSTALL_PREFIX}/${PROJECT_VERSION}/${CMAKE_SYSTEM_NAME}/sym/${ARCH})
@@ -44,11 +45,8 @@ if (WIN32)
         WORKING_DIRECTORY "${SYM_DIR}"
         USES_TERMINAL
         # windows 下 dump_syms需要设置编码为 utf-8，并且将换行符替换为unix格式
-        COMMAND chcp 65001
         COMMAND ${CMAKE_COMMAND} -E make_directory ${SYM_DIR}
-        COMMAND ${DUMP_SYMS_EXE} ./${PROJECT_NAME}.pdb > ${SYM_DIR}/${PROJECT_NAME}.sym
-        # git 默认安装dos2unix
-        # COMMAND dos2unix ${SYM_DIR}/${PROJECT_NAME}.sym
+        COMMAND ${DUMP_SYMS_EXE} "./${PROJECT_NAME}.pdb" > "${SYM_DIR}/${PROJECT_NAME}.sym"
         DEPENDS install
     )
 endif()
@@ -58,9 +56,9 @@ if (IOS)
         WORKING_DIRECTORY ${INSTALL_DIR}
         USES_TERMINAL
         COMMAND ${CMAKE_COMMAND} -E make_directory ${SYM_DIR}
-        COMMAND dsymutil ./lib${PROJECT_NAME}.dylib -o ./lib${PROJECT_NAME}.dylib.dSYM
-        COMMAND ${DUMP_SYMS_EXE} ./lib${PROJECT_NAME}.dylib.dSYM > ${SYM_DIR}/lib${PROJECT_NAME}.dylib.sym
-        COMMAND ${CMAKE_COMMAND} -E remove_directory ./lib${PROJECT_NAME}.dylib.dSYM
+        COMMAND dsymutil "./${PROJECT_NAME}" -o "./${PROJECT_NAME}.dSYM"
+        COMMAND ${DUMP_SYMS_EXE} "./${PROJECT_NAME}.dSYM" > "${SYM_DIR}/${PROJECT_NAME}.sym"
+        COMMAND ${CMAKE_COMMAND} -E remove_directory "./${PROJECT_NAME}.dSYM"
         DEPENDS install
     )
 
@@ -68,7 +66,7 @@ if (IOS)
         WORKING_DIRECTORY ${INSTALL_DIR}
         USES_TERMINAL
         COMMAND ${CMAKE_COMMAND} -E make_directory ${STRIP_DIR}
-        COMMAND strip -rSx lib${PROJECT_NAME}.dylib -o ${STRIP_DIR}/lib${PROJECT_NAME}.dylib
+        COMMAND ${CMAKE_STRIP} -rSx ${PROJECT_NAME} -o "${STRIP_DIR}/${PROJECT_NAME}"
         DEPENDS PackAllStaticLib DumpSymForBreakpad
     )
 
@@ -89,7 +87,7 @@ if (ANDROID)
         WORKING_DIRECTORY ${INSTALL_DIR}
         USES_TERMINAL
         COMMAND ${CMAKE_COMMAND} -E make_directory ${STRIP_DIR}
-        COMMAND ${STRIP_LOCALTION} -s lib${PROJECT_NAME}.so -o ${STRIP_DIR}/lib${PROJECT_NAME}.so
+        COMMAND ${CMAKE_STRIP} -s lib${PROJECT_NAME}.so -o ${STRIP_DIR}/lib${PROJECT_NAME}.so
         DEPENDS DumpSymForBreakpad)
 
 endif()
